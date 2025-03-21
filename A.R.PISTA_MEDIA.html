@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>%Tiro Media Distancia</title>
+    <link rel="stylesheet" href="MEDIA.css">
+    <link href="https://db.onlinewebfonts.com/c/35019d3c7bd526a9353879a622d7ab72?family=PayPal+Open+TT" rel="stylesheet">
+</head>
+<body>
+    <img src="LOGOPELOTA.png" alt="Logo" class="logo">
+    <p class="logo-text">Designed and Created by Alejandro Ramos</p>
+    
+    <img src="CANCHA_MEDIA_DISTANCIA.png" alt="Cancha Media Distancia" class="cancha-img">
+
+    <form id="mediaForm">
+        <h2>% Tiro Media Distancia</h2>
+        
+        <div class="inputs">
+            <label for="valor1-1">1</label>
+            <input type="number" id="valor1-1" class="valor1" placeholder="Tiros encestados">
+            <label for="valor2-1"></label>
+            <input type="number" id="valor2-1" class="valor2" placeholder="Tiros intentados">
+        </div>
+        <div class="inputs">
+            <label for="valor1-2">2</label>
+            <input type="number" id="valor1-2" class="valor1" placeholder="Tiros encestados">
+            <label for="valor2-2"></label>
+            <input type="number" id="valor2-2" class="valor2" placeholder="Tiros intentados">
+        </div>
+        <div class="inputs">
+            <label for="valor1-3">3</label>
+            <input type="number" id="valor1-3" class="valor1" placeholder="Tiros encestados">
+            <label for="valor2-3"></label>
+            <input type="number" id="valor2-3" class="valor2" placeholder="Tiros intentados">
+        </div>
+        <div class="inputs">
+            <label for="valor1-4">4</label>
+            <input type="number" id="valor1-4" class="valor1" placeholder="Tiros encestados">
+            <label for="valor2-4"></label>
+            <input type="number" id="valor2-4" class="valor2" placeholder="Tiros intentados">
+        </div>
+        <div class="inputs">
+            <label for="valor1-5">5</label>
+            <input type="number" id="valor1-5" class="valor1" placeholder="Tiros encestados">
+            <label for="valor2-5"></label>
+            <input type="number" id="valor2-5" class="valor2" placeholder="Tiros intentados">
+        </div>
+        <div class="inputs">
+            <label for="valor1-6">6</label>
+            <input type="number" id="valor1-6" class="valor1" placeholder="Tiros encestados">
+            <label for="valor2-6"></label>
+            <input type="number" id="valor2-6" class="valor2" placeholder="Tiros intentados">
+        </div>
+        
+        <button type="button" onclick="calcularPorcentaje()">Calcular %</button>
+        <p id="resultado"></p>
+        <p id="total"></p>
+    </form>
+    
+    <script>
+        function calcularPorcentaje() {
+            let valores1 = document.querySelectorAll('.valor1');
+            let valores2 = document.querySelectorAll('.valor2');
+            let resultado = "";
+            let totalEncestados = 0;
+            let totalIntentados = 0;
+            
+            for (let i = 0; i < valores1.length; i++) {
+                let num1 = parseFloat(valores1[i].value) || 0;
+                let num2 = parseFloat(valores2[i].value) || 1; // Evitar división por cero
+                
+                let porcentaje = (num1 / num2) * 100;
+                resultado += `% Tiro ${i + 1}: ${porcentaje.toFixed(2)}%<br>`;  // Cambié "Porcentaje" por "% Tiro"
+                
+                totalEncestados += num1;
+                totalIntentados += num2;
+            }
+    
+            let porcentajeTotal = (totalEncestados / totalIntentados) * 100;
+            document.getElementById('resultado').innerHTML = resultado;
+            document.getElementById('total').innerHTML = `% de Tiro Total: ${porcentajeTotal.toFixed(2)}%`;  // Cambié "Porcentaje Total" por "% de Tiro Total"
+        }
+    </script>
+    
+</body>
+</html>

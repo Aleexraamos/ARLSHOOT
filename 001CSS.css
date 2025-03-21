@@ -1,0 +1,51 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #828788;
+    margin: 0;
+    padding: 0;
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+    margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Eliminar margen superior */
+    padding: 0; /* Asegurar que no hay padding */
+}
+
+.container a {
+    margin: 20px 0; /* Espacio vertical entre enlaces */
+    display: block;
+}
+
+.container img {
+    width: 230px;
+    height: auto;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s ease;
+    transform: scale(1);
+    margin: 15px 0; /* Espacio vertical entre imágenes */
+    padding: 0;
+    display: block;
+}
+
+
+
+.container img:hover {
+    transform: scale(1.1); /* Imagen se agranda al 110% cuando el ratón está encima */
+}
+.logo-text {
+    font-family:"PayPal Open TT";
+    font-size: 16px; /* Tamaño del texto debajo del logo */
+    color: #333; /* Color del texto */
+    margin-top: 10px; /* Espacio entre el logo y el texto */
+    font-weight: normal;
+}
