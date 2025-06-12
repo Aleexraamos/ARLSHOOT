@@ -1,0 +1,55 @@
+/* Estilos base para hacer el contenedor centrado y adaptable */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000; /* opcional: para contraste */
+    overflow: hidden; /* evita barras durante zoom */
+}
+
+/* Imagen responsiva y animada */
+img {
+    width: 30vw; /* 30% del ancho de la ventana */
+    max-width: 150px;
+    height: auto;
+    animation: spin 3s ease-out, zoom 0.5s ease-in-out 1.5s forwards;
+    object-fit: contain;
+}
+
+/* Animación de giro */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(835deg);
+    }
+}
+
+/* Animación de zoom */
+@keyframes zoom {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(200);
+    }
+}
+
+/* Mejora para dispositivos con orientación vertical */
+@media (orientation: portrait) {
+    img {
+        width: 50vw;
+        max-width: 120px;
+    }
+}
+
+/* Accesibilidad opcional (reduce motion si el usuario lo prefiere) */
+@media (prefers-reduced-motion: reduce) {
+    img {
+        animation: none;
+    }
+}

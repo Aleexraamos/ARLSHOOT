@@ -1,0 +1,102 @@
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* Fondo adaptable y con respaldo negro */
+body {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    background-color: black; /* Fondo de respaldo */
+    background-image: url('fonde pelota basket.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 100dvh; /* Usa viewport real en móviles */
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Logo responsive */
+.logo {
+    width: 30vw;
+    max-width: 150px;
+    height: auto;
+    margin-top: 5vh;
+}
+
+/* Texto debajo del logo */
+.logo-text {
+    font-family: "PayPal Open TT", Arial, sans-serif;
+    font-size: 4vw;
+    max-width: 90%;
+    color: white;
+    margin-top: 1vh;
+    font-weight: normal;
+}
+
+/* Contenedor de enlaces o imágenes */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 2vh 0;
+}
+
+/* Enlaces como bloques con espacio */
+.container a {
+    margin: 2vh 0;
+    display: block;
+}
+
+/* Imágenes responsivas con hover */
+.container img {
+    width: 60vw;
+    max-width: 230px;
+    height: auto;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+    box-shadow: 0px 0px 12px rgba(255, 245, 230, 1);
+    margin: 2vh 0;
+}
+
+.container img:hover {
+    transform: scale(1.1);
+}
+
+/* Ajustes para pantallas grandes */
+@media (min-width: 768px) {
+    .logo {
+        width: 150px;
+    }
+
+    .logo-text {
+        font-size: 16px;
+    }
+
+    .container img {
+        width: 230px;
+    }
+}
+
+/* Accesibilidad: sin animaciones si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+    .container img {
+        transition: none;
+    }
+}
