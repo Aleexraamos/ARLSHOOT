@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>%Tiro Media Distancia</title>
+  <link rel="stylesheet" href="MEDIA.css" />
+  <link href="https://db.onlinewebfonts.com/c/35019d3c7bd526a9353879a622d7ab72?family=PayPal+Open+TT" rel="stylesheet" />
+</head>
+<body background="fondopelota.jpg">
+  <img src="CANCHA_MEDIA_DISTANCIA.png" alt="Cancha Media Distancia" class="cancha-img" />
+
+  <form id="mediaForm">
+    <div class="inputs" id="configuracionInicial">
+      <label for="numTiros">¿Tiros En Cada posición?</label>
+      <input type="number" id="numTiros" min="1" placeholder="Ej:5" inputmode="numeric" pattern="\d*" />
+      <button type="button" onclick="generarInputs()">EMPEZAR</button>
+    </div>
+    <div id="tirosContainer"></div>
+    <p id="resultado" style="margin-top: 20px;"></p>
+    <p id="total"></p>
+  </form>
+
+  <script>
+    let posicionActual = 1, totalPosiciones = 6;
+
+    function generarInputs() {
+      const tirosContainer = document.getElementById("tirosContainer");
+      const numTiros = parseInt(document.getElementById("numTiros").value);
+      if (isNaN(numTiros) || numTiros < 1) return alert("Introduce un número válido.");
+      document.getElementById("configuracionInicial").style.display = "none";
+
+      for (let i = 1; i <= totalPosiciones; i++) {
+        let div = document.createElement("div");
+        div.className = "inputs";
+        div.id = "posicion-" + i;
+        div.style.display = i === 1 ? "flex" : "none";
+
+        div.innerHTML = `
+          <label>Posición ${i}</label>
+          <input type="number" id="valor1-${i}" class="valor1" placeholder="Tiros encestados" inputmode="numeric" pattern="\\d*" min="0" max="${numTiros}" oninput="validarMaximo(this)">
+          <input type="number" id="valor2-${i}" class="valor2" placeholder="Tiros intentados" value="${numTiros}" readonly>
+          <div style="width:100%; margin-top:10px;">
+            ${i < totalPosiciones ? 
+              `<button type="button" onclick="siguiente()">Siguiente</button>` : 
+              `<button type="button" onclick="calcularPorcentaje()">Calcular %</button>`}
+          </div>
+        `;
+        tirosContainer.appendChild(div);
+      }
+    }
+
+    function validarMaximo(input) {
+      const max = parseInt(input.max);
+      let val = parseInt(input.value);
+      if (val > max) input.value = max;
+      if (val < 0) input.value = 0;
+    }
+
+    function mostrarPosicion(n) {
+      for (let i = 1; i <= totalPosiciones; i++) {
+        const d = document.getElementById("posicion-" + i);
+        if (d) d.style.display = i === n ? "flex" : "none";
+      }
+    }
+
+    function siguiente() {
+      if (posicionActual < totalPosiciones) mostrarPosicion(++posicionActual);
+    }
+
+    function obtenerClaseColor(porcentaje) {
+      if (porcentaje < 40) return 'porcentaje-rojo';
+      if (porcentaje >= 40 && porcentaje < 50) return 'porcentaje-amarillo';
+      return 'porcentaje-verde';
+    }
+
+    function calcularPorcentaje() {
+      const vals1 = document.querySelectorAll(".valor1"), vals2 = document.querySelectorAll(".valor2");
+      let r = "<strong>RESULTADO:</strong><br><br>", total1 = 0, total2 = 0;
+
+      vals1.forEach((v, i) => {
+        let a = parseFloat(v.value) || 0, b = parseFloat(vals2[i].value) || 1;
+        let porcentaje = (a / b * 100).toFixed(2);
+        let claseColor = obtenerClaseColor(parseFloat(porcentaje));
+        r += `% Tiro Posición ${i + 1}: <span class="${claseColor}">${porcentaje}%</span><br>`;
+        total1 += a; total2 += b;
+      });
+
+      let porcentajeTotal = (total1 / total2 * 100).toFixed(2);
+      let claseColorTotal = obtenerClaseColor(parseFloat(porcentajeTotal));
+
+      // ===== GUARDAR EN LOCALSTORAGE =====
+      const fechaActual = new Date().toLocaleString('es-ES');
+      const datosPerfil = {
+        porcentaje: porcentajeTotal,
+        fecha: fechaActual,
+        encestados: total1,
+        intentados: total2
+      };
+      localStorage.setItem('tiro_media', JSON.stringify(datosPerfil));
+      // ===================================
+
+      // Ocultar posiciones
+      document.getElementById("tirosContainer").style.display = "none";
+
+      // Mostrar resultado y botón reiniciar
+      document.getElementById("resultado").innerHTML = r + `
+        <br><strong>% de Tiro Total:</strong> <span class="${claseColorTotal}">${porcentajeTotal}%</span>
+        <br><br>
+        <button type="button" onclick="location.reload()">Reiniciar</button>
+      `;
+
+      document.getElementById("total").style.display = "none";
+    }
+  </script>
+</body>
+</html>

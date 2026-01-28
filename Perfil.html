@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - A.R</title>
+  <link rel="stylesheet" href="perfil.css">
+  <link href="https://db.onlinewebfonts.com/c/35019d3c7bd526a9353879a622d7ab72?family=PayPal+Open+TT" rel="stylesheet">
+</head>
+<body>
+
+  <div class="perfil-container">
+    <div class="logo-perfil">
+      <img src="LOGOPELOTA.png" alt="Logo AR" onerror="this.style.display='none'">
+    </div>
+
+    <h1> Mi Perfil de Tiro</h1>
+
+    <div id="promedioGeneral" class="promedio-general" style="display: none;">
+      Promedio General: <span id="promedioValor">0%</span>
+    </div>
+
+    <div class="estadisticas-grid" id="estadisticasContainer">
+      <!-- Las tarjetas se generarán aquí -->
+    </div>
+
+    <div class="botones-accion">
+      <button onclick="location.href='A.R.001.html'">← Volver al Inicio</button>
+      <button class="btn-danger" onclick="borrarDatos()"> Borrar Todas las Estadísticas</button>
+    </div>
+  </div>
+
+  <script>
+    // Configuración de las modalidades
+    const modalidades = [
+      { key: 'tiro_media', nombre: 'Media Distancia', icono: '' },
+      { key: 'tiro_larga', nombre: 'Larga Distancia', icono: '' },
+      { key: 'tiro_libre', nombre: 'Tiro Libre', icono: '' }
+    ];
+
+    function cargarEstadisticas() {
+      const container = document.getElementById('estadisticasContainer');
+      container.innerHTML = '';
+      
+      let totalPorcentaje = 0;
+      let contadorModalidades = 0;
+
+      modalidades.forEach(modalidad => {
+        const datos = localStorage.getItem(modalidad.key);
+        const tarjeta = document.createElement('div');
+        tarjeta.className = 'tarjeta-estadistica';
+
+        if (datos) {
+          const info = JSON.parse(datos);
+          contadorModalidades++;
+          totalPorcentaje += parseFloat(info.porcentaje);
+
+          tarjeta.innerHTML = `
+            <div class="tarjeta-titulo">${modalidad.icono} ${modalidad.nombre}</div>
+            <div class="tarjeta-porcentaje">${info.porcentaje}%</div>
+            <div class="tarjeta-detalles">
+              ${info.encestados} / ${info.intentados} tiros
+            </div>
+            <div class="tarjeta-fecha">
+              Última práctica: ${info.fecha}
+            </div>
+          `;
+        } else {
+          tarjeta.innerHTML = `
+            <div class="tarjeta-titulo">${modalidad.icono} ${modalidad.nombre}</div>
+            <div class="sin-datos">Sin datos aún<br>¡Empieza a practicar!</div>
+          `;
+        }
+
+        container.appendChild(tarjeta);
+      });
+
+      // Mostrar promedio general si hay datos
+      if (contadorModalidades > 0) {
+        const promedio = (totalPorcentaje / contadorModalidades).toFixed(2);
+        document.getElementById('promedioValor').textContent = promedio + '%';
+        document.getElementById('promedioGeneral').style.display = 'block';
+      }
+    }
+
+    function borrarDatos() {
+      if (confirm('¿Estás seguro de que quieres borrar todas tus estadísticas? Esta acción no se puede deshacer.')) {
+        modalidades.forEach(modalidad => {
+          localStorage.removeItem(modalidad.key);
+        });
+        alert('✅ Todas las estadísticas han sido borradas');
+        cargarEstadisticas();
+      }
+    }
+
+    // Cargar estadísticas al iniciar
+    cargarEstadisticas();
+  </script>
+
+</body>
+</html>

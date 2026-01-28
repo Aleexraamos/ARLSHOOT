@@ -1,0 +1,172 @@
+/* Aplica box-sizing globalmente */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Fondo adaptado con respaldo negro */
+body {
+    text-align: center;
+
+    background-color: black;
+    background-image: url('fondopelota.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+/* Logo */
+.logo {
+    width: 150px;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* Texto debajo del logo */
+.logo-text {
+    font-family: "PayPal Open TT", Arial, sans-serif;
+    font-size: 16px;
+    color: white;
+    margin-top: 10px;
+}
+
+/* Imagen de cancha */
+.cancha-img {
+    width: 92vw;
+    max-width: 460px; /* ✅ un poco más ancho para verse mejor */
+    height: auto;
+    margin: 10px 0;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(255,245,230,1);
+}
+
+/* Formulario */
+form {
+    background-color: white;
+    color: #000000;
+    padding: 22px;
+    border-radius: 14px;
+    margin: 20px auto;
+    box-shadow: 0px 0px 12px rgba(255,245,230,1);
+
+    width: min(92%, 520px); /* ✅ MÁS ANCHO pero sin pasarse */
+    height: auto;
+    overflow: auto;
+
+    font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+/* Título */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000000;
+    font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+/* ✅ Contenedor de entradas: TODO EN COLUMNA (claro y sin descuadres) */
+.inputs {
+    display: flex;
+    flex-direction: column;   /* ✅ uno debajo de otro */
+    align-items: stretch;
+    gap: 10px;
+    margin: 14px 0;
+
+    font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+/* Etiquetas */
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    text-align: left;
+    margin: 0;
+
+    font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+/* Campos de entrada */
+input {
+    width: 100%;            /* ✅ ancho completo */
+    padding: 12px;          /* ✅ más cómodo */
+    border: 1px solid #000000;
+    border-radius: 10px;
+    font-size: 15px;
+    margin: 0;              /* ✅ quita el "empuje" raro */
+    font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+/* Opcional: que el readonly se note */
+input[readonly] {
+    background-color: #f2f2f2;
+}
+
+/* Botón */
+button {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 12px;
+  border: 5px solid rgba(0, 0, 0, 0,);
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 8px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+button:hover {
+  background-color: #828788;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Resultado y total */
+#resultado,
+#total {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+    font-family: "PayPal Open TT", Arial, sans-serif;
+}
+
+/* Responsividad para móviles (ya está bien incluso sin esto, pero lo dejo) */
+@media (max-width: 600px) {
+    form {
+        width: 92%;
+    }
+}
+
+/* ===============================
+   COLORES DE PORCENTAJE
+================================ */
+.porcentaje-rojo {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.porcentaje-amarillo {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.porcentaje-verde {
+    color: #28a745;
+    font-weight: bold;
+}

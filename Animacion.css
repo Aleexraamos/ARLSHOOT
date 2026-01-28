@@ -1,0 +1,49 @@
+/* Estilos base para centrar el contenido */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000;
+    overflow: hidden;
+}
+
+/* Imagen animada y responsiva */
+img {
+    width: 30vw;
+    max-width: 150px;
+    height: auto;
+    object-fit: contain;
+    animation: spinZoom 2.5s ease-in-out forwards;
+    will-change: transform;
+}
+
+/* Animación combinada de giro y zoom */
+@keyframes spinZoom {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(835deg) scale(1);
+    }
+    100% {
+        transform: rotate(835deg) scale(200);
+    }
+}
+
+/* Mejora para orientación vertical */
+@media (orientation: portrait) {
+    img {
+        width: 50vw;
+        max-width: 120px;
+    }
+}
+
+/* Accesibilidad: si el usuario prefiere reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+    img {
+        animation: none;
+    }
+}
