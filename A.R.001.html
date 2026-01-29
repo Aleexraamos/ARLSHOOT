@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Viewport optimizado para modo app -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <title>A.R</title>
+
+  <!-- ===== MODO APP REAL iOS ===== -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="A.R">
+
+  <!-- Icono para pantalla de inicio -->
+  <link rel="apple-touch-icon" sizes="180x180" href="LOGOPELOTA.png">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="001CSS.css">
+
+  <!-- Fuente -->
+  <link href="https://db.onlinewebfonts.com/c/35019d3c7bd526a9353879a622d7ab72?family=PayPal+Open+TT" rel="stylesheet">
+</head>
+
+<body>
+  <!-- ===== Logo arriba izquierda ===== -->
+  <img src="LOGOPELOTA.png" alt="Logo" class="logo-top-left">
+
+  <!-- ===== Menú fijo arriba derecha ===== -->
+  <div class="ar-menu" id="arMenu">
+    <button class="ar-menu-button" id="arMenuButton"
+      aria-expanded="false"
+      aria-controls="arMenuDropdown"
+      aria-label="Abrir menú">
+      <img src="logomenu.png" class="ar-menu-avatar">
+    </button>
+
+    <nav class="ar-menu-dropdown" id="arMenuDropdown" role="menu" aria-hidden="true">
+      <a role="menuitem" href="Perfil.html" class="ar-menu-item">
+        <img src="usuario.png" class="ar-menu-item-icon">
+        <span>Perfil</span>
+      </a>
+      <a role="menuitem" href="Ejercicios.html" class="ar-menu-item">
+        <img src="ejercicios.png" class="ar-menu-item-icon">
+        <span>Ejercicios</span>
+      </a>
+      <a role="menuitem" href="Ayuda.html" class="ar-menu-item">
+        <img src="ayuda.png" class="ar-menu-item-icon">
+        <span>Ayuda</span>
+      </a>
+      <a role="menuitem" href="A.R.001.html" class="ar-menu-item">
+        <img src="salir.png" class="ar-menu-item-icon">
+        <span>Salir</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== Contenido principal ===== -->
+  <div class="container">
+    <a href="A.R.PISTA_MEDIA.html"><img src="Boton_media.png"></a>
+    <a href="A.R.PISTA_LIBRE.html"><img src="Boton_libre.png"></a>
+    <a href="A.R.PISTA_LARGA.html"><img src="Boton_larga.png"></a>
+    <a href="A.R.PISTA_ALL-STAR.html"><img src="botonallstar.jpg"></a>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="ar-footer">
+    <div class="ar-footer-icons">
+      <a href="#"><img src="logoinsta.png"></a>
+      <a href="#"><img src="logotiktok.png"></a>
+      <a href="#"><img src="logoyoutube.png"></a>
+    </div>
+  </footer>
+
+  <!-- ===== Script menú ===== -->
+  <script>
+    (function () {
+      const btn = document.getElementById('arMenuButton');
+      const menuWrap = document.getElementById('arMenu');
+      const dropdown = document.getElementById('arMenuDropdown');
+
+      function toggleMenu(force) {
+        if (force === true) menuWrap.classList.add('open');
+        else if (force === false) menuWrap.classList.remove('open');
+        else menuWrap.classList.toggle('open');
+
+        const opened = menuWrap.classList.contains('open');
+        btn.setAttribute('aria-expanded', opened);
+        dropdown.setAttribute('aria-hidden', !opened);
+      }
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      document.addEventListener('click', function () {
+        toggleMenu(false);
+      });
+
+      dropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') toggleMenu(false);
+      });
+    })();
+  </script>
+
+</body>
+</html>
