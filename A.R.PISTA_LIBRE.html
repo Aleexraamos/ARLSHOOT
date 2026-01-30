@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>% Tiro Libre</title>
+  <link rel="stylesheet" href="LIBRE.css" />
+  <link href="https://db.onlinewebfonts.com/c/35019d3c7bd526a9353879a622d7ab72?family=PayPal+Open+TT" rel="stylesheet" />
+</head>
+
+<body background="fondopelota.jpg">
+  <img src="CANCHA_TIRO_LIBRE.png" alt="Cancha Tiro Libre" class="cancha-img" />
+
+  <form id="libreForm">
+
+    <!-- Configuración inicial -->
+    <div class="inputs" id="configuracionInicial">
+      <label for="numTiros">¿Tiros en la posición?</label>
+
+      <input type="text"
+             id="numTiros"
+             placeholder="Ej: 5"
+             inputmode="numeric"
+             pattern="[0-9]*"
+             oninput="soloNumeros(this)" />
+
+      <button type="button" onclick="generarInputs()">EMPEZAR</button>
+    </div>
+
+    <div id="tirosContainer"></div>
+
+    <p id="resultado" style="margin-top: 20px;"></p>
+  </form>
+
+<script>
+
+/* ===== SOLO NUMEROS ===== */
+function soloNumeros(input) {
+  input.value = input.value.replace(/[^0-9]/g, '');
+}
+
+/* Bloquear pegado no numérico */
+document.addEventListener("paste", function(e) {
+  if (e.target.tagName === "INPUT") {
+    const texto = (e.clipboardData || window.clipboardData).getData("text");
+    if (!/^\d+$/.test(texto)) e.preventDefault();
+  }
+});
+
+/* ===== GENERAR INPUT ===== */
+function generarInputs() {
+  const tirosContainer = document.getElementById('tirosContainer');
+  tirosContainer.innerHTML = '';
+
+  const numTiros = parseInt(document.getElementById('numTiros').value);
+
+  if (isNaN(numTiros) || numTiros < 1) {
+    alert('Por favor, introduce un número válido de tiros.');
+    return;
+  }
+
+  document.getElementById('configuracionInicial').style.display = 'none';
+
+  const contenedor = document.createElement('div');
+  contenedor.classList.add('inputs');
+  contenedor.style.flexDirection = 'column';
+
+  const fila = document.createElement('div');
+  fila.style.display = 'flex';
+  fila.style.alignItems = 'center';
+  fila.style.gap = '10px';
+
+  fila.innerHTML = `
+    <label for="valor1">Tiros:</label>
+
+    <input type="text"
+           id="valor1"
+           class="valor1"
+           placeholder="Encestados"
+           inputmode="numeric"
+           pattern="[0-9]*"
+           max="${numTiros}"
+           oninput="soloNumeros(this); validarMaximo(this)">
+
+    <input type="text"
+           id="valor2"
+           class="valor2"
+           value="${numTiros}"
+           readonly>
+  `;
+
+  const boton = document.createElement('button');
+  boton.type = 'button';
+  boton.textContent = 'Calcular %';
+  boton.style.marginTop = '10px';
+  boton.onclick = calcularPorcentaje;
+
+  contenedor.appendChild(fila);
+  contenedor.appendChild(boton);
+  tirosContainer.appendChild(contenedor);
+}
+
+/* ===== VALIDAR MAXIMO ===== */
+function validarMaximo(input) {
+  const max = parseInt(input.max);
+  let val = parseInt(input.value);
+
+  if (val > max) input.value = max;
+  if (val < 0) input.value = 0;
+}
+
+/* ===== COLORES ===== */
+function obtenerClaseColor(porcentaje) {
+  if (porcentaje < 40) return 'porcentaje-rojo';
+  if (porcentaje < 50) return 'porcentaje-amarillo';
+  return 'porcentaje-verde';
+}
+
+/* ===== CALCULO ===== */
+function calcularPorcentaje() {
+  const val1 = document.getElementById('valor1');
+  const val2 = document.getElementById('valor2');
+
+  const num1 = parseFloat(val1.value) || 0;
+  const num2 = parseFloat(val2.value) || 1;
+
+  const porcentaje = (num1 / num2) * 100;
+  const claseColor = obtenerClaseColor(porcentaje);
+
+  /* ===== GUARDAR LOCALSTORAGE ===== */
+  const fechaActual = new Date().toLocaleString('es-ES');
+
+  const datosPerfil = {
+    porcentaje: porcentaje.toFixed(2),
+    fecha: fechaActual,
+    encestados: num1,
+    intentados: num2
+  };
+
+  localStorage.setItem('tiro_libre', JSON.stringify(datosPerfil));
+
+  /* ===== MOSTRAR RESULTADO ===== */
+  document.getElementById('tirosContainer').style.display = 'none';
+
+  document.getElementById('resultado').innerHTML = `
+    <strong>RESULTADO:</strong><br><br>
+    % Tiro Libre:
+    <span class="${claseColor}">${porcentaje.toFixed(2)}%</span>
+    <br><br>
+    <button type="button" onclick="location.reload()">Reiniciar</button>
+  `;
+}
+
+</script>
+
+</body>
+</html>
